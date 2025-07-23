@@ -5,23 +5,46 @@ import { TypingTestContext } from './TypingTestContext';
  * PUBLIC_INTERFACE
  * StatsBar component displays live typing statistics:
  * WPM, accuracy, timer, wordbank info, and test mode indicators.
+ *
+ * This version robustly handles the case where TypingTestContext is undefined or partially missing.
  */
 function StatsBar() {
-  const {
-    stats: { wpm, accuracy, timer, totalChars, charsTyped },
-    settings: { caseSensitive, strictMode, wordBankCategory, timerLength },
-    isRunning
-  } = useContext(TypingTestContext);
+  // Attempt to get context, or fall back to safe defaults
+  const ctx = useContext(TypingTestContext);
+
+  // Provide fallbacks for all values
+  const stats = (ctx && ctx.stats) || { wpm: 0, accuracy: 100, timer: 0, totalChars: 0, charsTyped: 0 };
+  const settings = (ctx && ctx.settings) || {
+    caseSensitive: false,
+    strictMode: false,
+    wordBankCategory: 'easy',
+    timerLength: 60,
+  };
+  const isRunning = (ctx && typeof ctx.isRunning === 'boolean') ? ctx.isRunning : false;
+
+  // If even these are missing, render minimal placeholder (should not happen, but double-safeguard)
+  if (!ctx) {
+    // Optionally render a visible warning for devs
+    return (
+      <div
+        className="w-full max-w-2xl mx-auto flex items-center justify-center gap-3 p-3 mb-4 bg-[var(--bg-secondary)] rounded-xl shadow transition-all"
+        aria-label="Typing statistics"
+        style={{ color: 'red', fontStyle: 'italic', opacity: 0.6 }}
+      >
+        StatsBar: No TypingTestContext provider found.
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-2xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 p-3 mb-4 bg-[var(--bg-secondary)] rounded-xl shadow transition-all"
          aria-label="Typing statistics">
       <div className="flex items-center gap-6">
         <span className="text-base md:text-lg font-mono">
-          <span role="img" aria-label="timer">⏱️</span> {timerLength}s
+          <span role="img" aria-label="timer">⏱️</span> {settings.timerLength}s
         </span>
         <span className="text-base md:text-lg font-mono">
-          <span role="img" aria-label="category">🗂️</span> {wordBankCategory}
+          <span role="img" aria-label="category">🗂️</span> {settings.wordBankCategory}
         </span>
         <span className="text-base md:text-lg font-mono"
               style={{ color: isRunning ? '#2563EB' : '#64748B' }}>
@@ -30,14 +53,14 @@ function StatsBar() {
       </div>
       <div className="flex items-center gap-6 font-mono">
         <span className="text-lg">
-          <span role="img" aria-label="speed">🔤</span> WPM: <strong>{wpm}</strong>
+          <span role="img" aria-label="speed">🔤</span> WPM: <strong>{stats.wpm}</strong>
         </span>
         <span className="text-lg">
-          <span role="img" aria-label="accuracy">✅</span> Accuracy: <strong>{accuracy}%</strong>
+          <span role="img" aria-label="accuracy">✅</span> Accuracy: <strong>{stats.accuracy}%</strong>
         </span>
         <span className="text-xs text-[var(--text-secondary)] ml-4">
-          <span className="px-2 py-1 rounded bg-[var(--border-color)] mr-1">{caseSensitive ? 'Case' : 'No case'}</span>
-          <span className="px-2 py-1 rounded bg-[var(--border-color)]">{strictMode ? 'Strict' : 'Easy'}</span>
+          <span className="px-2 py-1 rounded bg-[var(--border-color)] mr-1">{settings.caseSensitive ? 'Case' : 'No case'}</span>
+          <span className="px-2 py-1 rounded bg-[var(--border-color)]">{settings.strictMode ? 'Strict' : 'Easy'}</span>
         </span>
       </div>
     </div>
