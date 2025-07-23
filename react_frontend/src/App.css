@@ -4,10 +4,25 @@
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
   --text-primary: #282c34;
-  --text-secondary: #61dafb;
+  --text-secondary: #2563EB;
   --border-color: #e9ecef;
   --button-bg: #007bff;
   --button-text: #ffffff;
+  --keyboard-bg: #f3f4f6;
+  --keyboard-shadow: 0 7px 24px rgba(0,0,0,0.055);
+}
+
+[data-theme="dark"] {
+  /* Dark theme colors */
+  --bg-primary: #181b20;
+  --bg-secondary: #23263a;
+  --text-primary: #e9ecef;
+  --text-secondary: #f59e42;
+  --border-color: #313344;
+  --button-bg: #f59e42;
+  --button-text: #181b20;
+  --keyboard-bg: #23263a;
+  --keyboard-shadow: 0 10px 34px rgba(0,0,0,0.24);
 }
 
 [data-theme="dark"] {
@@ -101,4 +116,43 @@
     padding: 8px 16px;
     font-size: 12px;
   }
+}
+
+/* On-screen keyboard (osk) custom styles */
+.on-screen-keyboard {
+  background: var(--keyboard-bg);
+  border-radius: 18px;
+  margin-bottom: 1rem;
+  box-shadow: var(--keyboard-shadow);
+  padding-bottom: 18px;
+  padding-top: 7px;
+  border: 1.5px solid var(--border-color);
+  position: relative;
+  overflow-x: auto;
+  transition: background 0.36s, box-shadow 0.21s;
+}
+.osk-key {
+  user-select: none;
+  transition: background 0.16s, color 0.16s, box-shadow 0.13s;
+  box-shadow: 0 1.5px 3px rgba(18,18,20,0.04);
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.osk-key:active {
+  opacity: 0.93;
+}
+
+.osk-row {
+  min-width: 0;
+}
+
+/* Modal polish */
+[data-testid="settings-modal"] .w-full {
+  animation: fadeDown 0.28s cubic-bezier(.37,1.17,.66,1.01);
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-28px);}
+  to { opacity: 1; transform: translateY(0);}
 }
