@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { TypingTestContext } from "./TypingTestContext";
+import { Space as SpaceBarIcon } from "lucide-react";
 
 /**
  * PUBLIC_INTERFACE
@@ -183,11 +184,11 @@ function OnScreenKeyboard() {
               color = "var(--button-text)";
               styleBox = { fontWeight: "bold", boxShadow: "0 0 0 2px var(--button-bg)" };
             }
-            // Space shows icon
+            // Space shows icon - use Lucide Space (Keyboard) icon instead
             const display =
               key.code === "Space" ? (
-                <span aria-label="space" style={{ fontSize: "20px" }}>
-                  ⎵
+                <span aria-label="space" style={{ fontSize: "20px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <SpaceBarIcon size={20} />
                 </span>
               ) : (
                 key.label || ""

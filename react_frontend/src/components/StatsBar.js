@@ -1,5 +1,12 @@
 import React, { useContext } from 'react';
 import { TypingTestContext } from './TypingTestContext';
+import {
+  Timer as TimerIcon,
+  Layers as LayersIcon,
+  PlayCircle as PlayCircleIcon,
+  Zap as ZapIcon,
+  CheckCircle as CheckCircleIcon
+} from 'lucide-react';
 
 /**
  * PUBLIC_INTERFACE
@@ -36,27 +43,31 @@ function StatsBar() {
     );
   }
 
+  // Use Lucide icons and provide layout/UX explanation text
   return (
     <div className="w-full max-w-2xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 p-3 mb-4 bg-[var(--bg-secondary)] rounded-xl shadow transition-all"
          aria-label="Typing statistics">
+      <div className="w-full mb-2 px-2 text-xs text-[var(--text-secondary)]">
+        Your live typing progress, speed, and accuracy are shown here.
+      </div>
       <div className="flex items-center gap-6">
-        <span className="text-base md:text-lg font-mono">
-          <span role="img" aria-label="timer">⏱️</span> {settings.timerLength}s
+        <span className="text-base md:text-lg font-mono flex items-center gap-1">
+          <TimerIcon size={14} /> {settings.timerLength}s
         </span>
-        <span className="text-base md:text-lg font-mono">
-          <span role="img" aria-label="category">🗂️</span> {settings.wordBankCategory}
+        <span className="text-base md:text-lg font-mono flex items-center gap-1">
+          <LayersIcon size={14} /> {settings.wordBankCategory}
         </span>
-        <span className="text-base md:text-lg font-mono"
+        <span className="text-base md:text-lg font-mono flex items-center gap-1"
               style={{ color: isRunning ? '#2563EB' : '#64748B' }}>
-          <span role="img" aria-label="test running">🟢</span> {isRunning ? 'Running' : 'Paused'}
+          <PlayCircleIcon size={15} /> {isRunning ? 'Running' : 'Paused'}
         </span>
       </div>
       <div className="flex items-center gap-6 font-mono">
-        <span className="text-lg">
-          <span role="img" aria-label="speed">🔤</span> WPM: <strong>{stats.wpm}</strong>
+        <span className="text-lg flex items-center gap-1">
+          <ZapIcon size={15} /> WPM: <strong>{stats.wpm}</strong>
         </span>
-        <span className="text-lg">
-          <span role="img" aria-label="accuracy">✅</span> Accuracy: <strong>{stats.accuracy}%</strong>
+        <span className="text-lg flex items-center gap-1">
+          <CheckCircleIcon size={15} /> Accuracy: <strong>{stats.accuracy}%</strong>
         </span>
         <span className="text-xs text-[var(--text-secondary)] ml-4">
           <span className="px-2 py-1 rounded bg-[var(--border-color)] mr-1">{settings.caseSensitive ? 'Case' : 'No case'}</span>

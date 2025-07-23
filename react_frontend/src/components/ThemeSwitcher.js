@@ -1,4 +1,5 @@
 import React from 'react';
+import { Moon, Sun } from 'lucide-react';
 
 /**
  * PUBLIC_INTERFACE
@@ -9,11 +10,20 @@ import React from 'react';
 function ThemeSwitcher({ theme, toggleTheme }) {
   return (
     <button
-      className="theme-toggle outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--text-secondary)] text-[var(--button-text)]"
+      className="theme-toggle outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[var(--text-secondary)] text-[var(--button-text)] flex items-center gap-2"
       onClick={toggleTheme}
       aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+      type="button"
     >
-      {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
+      {theme === 'light' ? (
+        <>
+          <Moon size={16} aria-hidden="true" /> Dark
+        </>
+      ) : (
+        <>
+          <Sun size={16} aria-hidden="true" /> Light
+        </>
+      )}
     </button>
   );
 }

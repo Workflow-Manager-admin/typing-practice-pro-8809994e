@@ -3,6 +3,14 @@ import { TypingTestContext } from "./TypingTestContext";
 import { wordBanks, getRandomPrompt } from "../utils/wordBanks";
 import Confetti from "react-confetti";
 import useWindowSize from "../utils/useWindowSize";
+import {
+  Award as AwardIcon,
+  Timer as TimerIcon,
+  Zap as ZapIcon,
+  CheckCircle2 as CheckIcon,
+  X as XIcon,
+} from "lucide-react";
+
 /**
  * PUBLIC_INTERFACE
  * TypingTest is the main interactive component for typing practice.
@@ -173,6 +181,11 @@ function TypingTest() {
         aria-label="Typing practice area"
         style={{ position: "relative" }}
       >
+        <div className="w-full max-w-xl mx-auto mb-1 bg-transparent text-base text-[var(--text-secondary)]">
+          <p>
+            <span className="font-semibold text-[var(--text-secondary)]">Instructions:</span> Type the text prompt below in the input box. Your accuracy and speed will be calculated as you type. All settings can be changed at any time using the sidebar.
+          </p>
+        </div>
         {confettiActive && width && height && (
           <Confetti
             width={width}
@@ -231,6 +244,9 @@ function TypingTest() {
                 Restart
               </button>
             </div>
+            <div className="w-full mt-3 text-xs text-[var(--text-secondary)] text-center italic">
+              Try adjusting timer, category, or strict/case options at any point!
+            </div>
           </>
         )}
       </section>
@@ -280,35 +296,23 @@ function TestResults({ wpm, accuracy, timerLength, errors, onRestart }) {
       }}
     >
       <h2
-        className="text-2xl font-extrabold mb-1"
+        className="text-2xl font-extrabold mb-1 flex items-center gap-2"
         style={{ letterSpacing: 2, color: "var(--text-secondary)" }}
       >
-        🎉 Great job!
+        <AwardIcon size={22} strokeWidth={2.2} className="inline mb-0.5" /> Great job!
       </h2>
       <div className="flex flex-col items-center font-mono mb-2 text-lg w-full gap-1">
-        <div>
-          <span role="img" aria-label="stopwatch">
-            ⏲️
-          </span>{" "}
-          <b>{timerLength}s</b>
+        <div className="flex items-center gap-2">
+          <TimerIcon size={15} /> <b>{timerLength}s</b>
         </div>
-        <div>
-          <span role="img" aria-label="speed">
-            🔤
-          </span>{" "}
-          WPM: <strong>{wpm}</strong>
+        <div className="flex items-center gap-2">
+          <ZapIcon size={15} /> WPM: <strong>{wpm}</strong>
         </div>
-        <div>
-          <span role="img" aria-label="accuracy">
-            ✅
-          </span>{" "}
-          Accuracy: <strong>{accuracy}%</strong>
+        <div className="flex items-center gap-2">
+          <CheckIcon size={15} /> Accuracy: <strong>{accuracy}%</strong>
         </div>
-        <div>
-          <span role="img" aria-label="errors">
-            ❌
-          </span>{" "}
-          <strong>{errors}</strong> mistakes
+        <div className="flex items-center gap-2">
+          <XIcon size={15} /> <strong>{errors}</strong> mistakes
         </div>
       </div>
       <button
@@ -318,6 +322,9 @@ function TestResults({ wpm, accuracy, timerLength, errors, onRestart }) {
       >
         Restart Test
       </button>
+      <div className="w-full mt-3 text-xs text-[var(--text-secondary)] text-center italic">
+        You can try again, or modify your practice using the options on the left!
+      </div>
     </div>
   );
 }
